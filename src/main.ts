@@ -7,11 +7,9 @@ document.title = gameName;
 
 //globals
 let count = 0;
+const growth_rate = 1;
+let initial = Date.now();
 
-setInterval(() => {
-    count += 1
-    updateCountDisplayMessage()
-} , 1000)
 
 const main_container = document.createElement("div");
 main_container.className = "container";
@@ -50,3 +48,22 @@ function getCount(): string {
 }
 
 app.append(main_container);
+
+
+/**
+ * main update function that runs everything
+ */
+function update(): void {
+    const elapsed = Date.now();
+    const final = (elapsed - initial) / 1000;
+  
+    if (final > 1) {
+      count += growth_rate;
+      initial = Date.now();
+      updateCountDisplayMessage();
+    }
+    requestAnimationFrame(update);
+  }
+  
+  requestAnimationFrame(update);
+  
