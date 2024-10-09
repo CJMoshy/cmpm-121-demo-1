@@ -37,6 +37,7 @@ h1 {
 }
 
 #app {
+  display: flex;
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -57,10 +58,6 @@ button {
 button:hover {
   border-color: #646cff;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -73,4 +70,46 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  justify-content: center;
+  top: 0%;
+  left: 0%;
+  width: 80%;
+  height: 100%;
+}
+
+.sidebar {
+  width: 20%;
+  height: 100%;
+  position: fixed;
+  right: 0%;
+  top: 0%;
+  border: 2px solid grey;
+}
+
+.alien {
+  width: 200px;
+  height: 200px;
+  align-self: center;
+}
+
+.counter {
+  padding-bottom: 20px;
+  color: black;
+  font-size: 50px;
+}
+
+.upgrade {
+  margin-top: 10px;
+}
+
+.passive {
+  padding-top: 20px;
+  color: grey;
+  font-size: 30px;
 }
