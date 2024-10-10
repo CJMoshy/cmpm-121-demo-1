@@ -9,6 +9,7 @@ document.title = gameName;
 let count = 0;
 let growth_rate = 0;
 let initial = Date.now();
+const upgrade_increase_factor = 1.15;
 const upgrades: Upgrade[] = [
   { name: "A", cost: 10, growth_rate: 0.1 },
   { name: "B", cost: 100, growth_rate: 2.0 },
@@ -51,6 +52,15 @@ app.append(sidebar_container);
 ////////////////////////////////////////
 
 /**
+ * function that takes in a button and an upgrade and sets the button text content to the upgrades values
+ * @param {HTMLButtonElement} btn
+ * @param {Upgrade} u
+ */
+function setUpgradeTextContent(btn: HTMLButtonElement, u: Upgrade) {
+  btn.textContent = `+${u.growth_rate.toString()} aliens per second\ncost = ${u.cost.toFixed(2)}`;
+}
+
+/**
  * this function creates a bunch of buttons based on a list of
  * upgrades passed in
  */
@@ -58,10 +68,11 @@ function createUpgrade(): void {
   upgrades.forEach((upgrade) => {
     const x = document.createElement("button");
     x.disabled = true;
-    x.textContent = `+${upgrade.growth_rate.toString()} aliens per second`;
+    x.style.whiteSpace = "pre-line";
+    setUpgradeTextContent(x, upgrade);
     x.className = "upgrade";
     x.id = `upg-${upgrade.name}`;
-    x.addEventListener("click", () => purchaseUpgrade(upgrade));
+    x.addEventListener("click", () => purchaseUpgrade(upgrade, x));
     sidebar_container.append(x);
   });
 }
@@ -69,7 +80,7 @@ function createUpgrade(): void {
 /**
  * this function is checking each button flagged as an upgrade button
  * with its corresponding object and the current count to check whether or not
- * to unlock or lock the upgrades
+ * to unlock or lock the upgrades.
  */
 function manageUpgradeLocks(): void {
   upgrades.forEach((u) => {
@@ -79,6 +90,7 @@ function manageUpgradeLocks(): void {
     } else if (count < u.cost) btn.disabled = true;
   });
 }
+
 /**
  * this function sets the display for the user of thier current collected ammount
  */
@@ -118,12 +130,14 @@ function getPassiveGenerationRate(): string {
 /**
  * this function mediates the purchase of upgrade
  */
-function purchaseUpgrade(u: Upgrade): void {
+function purchaseUpgrade(u: Upgrade, btn: HTMLButtonElement): void {
   if (count >= u.cost) {
     count -= u.cost;
     growth_rate += u.growth_rate;
+    u.cost *= upgrade_increase_factor;
     updatePassiveGenerationDisplayMessage();
     updateCountDisplayMessage();
+    setUpgradeTextContent(btn, u);
   }
 }
 
