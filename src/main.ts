@@ -9,6 +9,11 @@ document.title = gameName;
 let count = 0;
 let growth_rate = 0;
 let initial = Date.now();
+const upgrades: Upgrade[] = [
+  { name: "A", cost: 10, growth_rate: 0.1 },
+  { name: "B", cost: 100, growth_rate: 2.0 },
+  { name: "C", cost: 1000, growth_rate: 50 },
+];
 
 // dom setup here
 const main_container = document.createElement("div");
@@ -39,19 +44,41 @@ main_click_component.addEventListener("click", () => {
   updateCountDisplayMessage();
 });
 
-const upgrade_1 = document.createElement("button");
-upgrade_1.disabled = true;
-upgrade_1.textContent = "+1 alien per second";
-upgrade_1.className = "upgrade";
-sidebar_container.append(upgrade_1);
-upgrade_1.addEventListener("click", purchaseUpgrade);
-
 app.append(main_container);
 app.append(sidebar_container);
 
 //* Utility functions *//
 ////////////////////////////////////////
 
+/**
+ * this function creates a bunch of buttons based on a list of
+ * upgrades passed in
+ */
+function createUpgrade(): void {
+  upgrades.forEach((upgrade) => {
+    const x = document.createElement("button");
+    x.disabled = true;
+    x.textContent = `+${upgrade.growth_rate.toString()} aliens per second`;
+    x.className = "upgrade";
+    x.id = `upg-${upgrade.name}`;
+    x.addEventListener("click", () => purchaseUpgrade(upgrade));
+    sidebar_container.append(x);
+  });
+}
+
+/**
+ * this function is checking each button flagged as an upgrade button
+ * with its corresponding object and the current count to check whether or not
+ * to unlock or lock the upgrades
+ */
+function manageUpgradeLocks(): void {
+  upgrades.forEach((u) => {
+    const btn = document.getElementById(`upg-${u.name}`) as HTMLButtonElement;
+    if (count >= u.cost && btn.disabled === true) {
+      btn.disabled = false;
+    } else if (count < u.cost) btn.disabled = true;
+  });
+}
 /**
  * this function sets the display for the user of thier current collected ammount
  */
@@ -67,7 +94,7 @@ function getCount(): string {
   if (count === 0) return "0";
   return count === 1
     ? `1 alien collected!`
-    : `${count.toString()} aliens collected!`;
+    : `${count.toFixed(0).toString()} aliens collected!`;
 }
 
 /**
@@ -85,18 +112,18 @@ function getPassiveGenerationRate(): string {
   if (growth_rate === 0) return "0 aliens generated per second";
   return growth_rate === 1
     ? `1 alien generated per second!`
-    : `${growth_rate.toString()} aliens generated per second!`;
+    : `${growth_rate.toFixed(1).toString()} aliens generated per second!`;
 }
 
 /**
  * this function mediates the purchase of upgrade
- * this will likely need rework soon when more upgrades are available
  */
-function purchaseUpgrade(): void {
-  if (count >= 10) {
-    count -= 10;
-    growth_rate += 1;
+function purchaseUpgrade(u: Upgrade): void {
+  if (count >= u.cost) {
+    count -= u.cost;
+    growth_rate += u.growth_rate;
     updatePassiveGenerationDisplayMessage();
+    updateCountDisplayMessage();
   }
 }
 
@@ -104,9 +131,7 @@ function purchaseUpgrade(): void {
  * main update function that runs everything
  */
 function update(): void {
-  if (count >= 10 && upgrade_1.disabled === true) {
-    upgrade_1.disabled = false;
-  } else if (count < 10) upgrade_1.disabled = true;
+  manageUpgradeLocks();
 
   const elapsed = Date.now();
   const final = (elapsed - initial) / 1000;
@@ -119,4 +144,5 @@ function update(): void {
   requestAnimationFrame(update);
 }
 
+createUpgrade();
 requestAnimationFrame(update);
