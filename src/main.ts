@@ -1,8 +1,9 @@
 import "./style.css";
+import spaceship from './spaceship.jpg'
 
 // skeleton stuff from base code
 const app: HTMLDivElement = document.querySelector("#app")!;
-const gameName = "unknown clicker";
+const gameName = "Galaxy Gatherer";
 document.title = gameName;
 
 // globals
@@ -11,9 +12,9 @@ let growth_rate = 0;
 let initial = Date.now();
 const upgrade_increase_factor = 1.15;
 const upgrades: Upgrade[] = [
-  { name: "A", cost: 10, growth_rate: 0.1 },
-  { name: "B", cost: 100, growth_rate: 2.0 },
-  { name: "C", cost: 1000, growth_rate: 50 },
+  { name: "Alien Assistants", cost: 10, growth_rate: 0.1 },
+  { name: "Mothership Generator", cost: 100, growth_rate: 2.0 },
+  { name: "Black Hole Essence", cost: 1000, growth_rate: 50 },
 ];
 
 // dom setup here
@@ -30,10 +31,13 @@ updateCountDisplayMessage();
 counter.className = "counter";
 main_container.append(counter);
 
-const main_click_component = document.createElement("button");
-main_click_component.className = "alien";
-main_click_component.textContent = "👾";
-main_container.append(main_click_component);
+const click_component_container = document.createElement('div');
+click_component_container.className = 'click-container'
+const main_click_component = document.createElement("img");
+main_click_component.draggable = false
+main_click_component.src = spaceship //https://perchance.org/ai-pixel-art-generator
+click_component_container.append(main_click_component)
+main_container.append(click_component_container);
 
 const passive_gains_tracker = document.createElement("div");
 passive_gains_tracker.className = "passive";
@@ -57,7 +61,7 @@ app.append(sidebar_container);
  * @param {Upgrade} u
  */
 function setUpgradeTextContent(btn: HTMLButtonElement, u: Upgrade) {
-  btn.textContent = `+${u.growth_rate.toString()} aliens per second\ncost = ${u.cost.toFixed(2)}`;
+  btn.textContent = `${u.name}\n+${u.growth_rate.toString()} galaxy dust per second\ncost = ${u.cost.toFixed(2)}`;
 }
 
 /**
@@ -104,9 +108,7 @@ function updateCountDisplayMessage(): void {
  */
 function getCount(): string {
   if (count === 0) return "0";
-  return count === 1
-    ? `1 alien collected!`
-    : `${count.toFixed(0).toString()} aliens collected!`;
+  return `${count.toFixed(0).toString()} galaxy dust!`;
 }
 
 /**
@@ -121,10 +123,8 @@ function updatePassiveGenerationDisplayMessage(): void {
  * @return {string}
  */
 function getPassiveGenerationRate(): string {
-  if (growth_rate === 0) return "0 aliens generated per second";
-  return growth_rate === 1
-    ? `1 alien generated per second!`
-    : `${growth_rate.toFixed(1).toString()} aliens generated per second!`;
+  if (growth_rate === 0) return "0 galaxy dust per second";
+  return `${growth_rate.toFixed(1).toString()} galaxy dust per second!`;
 }
 
 /**

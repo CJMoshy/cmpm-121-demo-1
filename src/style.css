@@ -77,13 +77,16 @@ button:hover {
   flex-direction: column;
   position: fixed;
   justify-content: center;
+  align-items: center;
   top: 0%;
   left: 0%;
   width: 80%;
   height: 100%;
+  user-select: none;
 }
 
 .sidebar {
+  user-select: none;
   width: 20%;
   height: 100%;
   position: fixed;
@@ -92,10 +95,10 @@ button:hover {
   border: 2px solid grey;
 }
 
-.alien {
-  width: 200px;
-  height: 200px;
-  align-self: center;
+.click-container{
+  width: 512px;
+  height: 768px;
+  border: 2px solid black;
 }
 
 .counter {
