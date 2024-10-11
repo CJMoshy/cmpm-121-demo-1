@@ -1,9 +1,7 @@
-declare module '*jpg'
+declare module "*jpg";
 
-interface Upgrade {
+interface Item {
   name: string;
   cost: number;
   growth_rate: number;
 }
-
-

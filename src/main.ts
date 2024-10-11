@@ -1,5 +1,5 @@
 import "./style.css";
-import spaceship from './spaceship.jpg'
+import spaceship from "./spaceship.jpg";
 
 // skeleton stuff from base code
 const app: HTMLDivElement = document.querySelector("#app")!;
@@ -11,7 +11,7 @@ let count = 0;
 let growth_rate = 0;
 let initial = Date.now();
 const upgrade_increase_factor = 1.15;
-const upgrades: Upgrade[] = [
+const availableItems: Item[] = [
   { name: "Alien Assistants", cost: 10, growth_rate: 0.1 },
   { name: "Mothership Generator", cost: 100, growth_rate: 2.0 },
   { name: "Black Hole Essence", cost: 1000, growth_rate: 50 },
@@ -31,12 +31,12 @@ updateCountDisplayMessage();
 counter.className = "counter";
 main_container.append(counter);
 
-const click_component_container = document.createElement('div');
-click_component_container.className = 'click-container'
+const click_component_container = document.createElement("div");
+click_component_container.className = "click-container";
 const main_click_component = document.createElement("img");
-main_click_component.draggable = false
-main_click_component.src = spaceship //https://perchance.org/ai-pixel-art-generator
-click_component_container.append(main_click_component)
+main_click_component.draggable = false;
+main_click_component.src = spaceship; //https://perchance.org/ai-pixel-art-generator
+click_component_container.append(main_click_component);
 main_container.append(click_component_container);
 
 const passive_gains_tracker = document.createElement("div");
@@ -60,7 +60,7 @@ app.append(sidebar_container);
  * @param {HTMLButtonElement} btn
  * @param {Upgrade} u
  */
-function setUpgradeTextContent(btn: HTMLButtonElement, u: Upgrade) {
+function setUpgradeTextContent(btn: HTMLButtonElement, u: Item) {
   btn.textContent = `${u.name}\n+${u.growth_rate.toString()} galaxy dust per second\ncost = ${u.cost.toFixed(2)}`;
 }
 
@@ -69,7 +69,7 @@ function setUpgradeTextContent(btn: HTMLButtonElement, u: Upgrade) {
  * upgrades passed in
  */
 function createUpgrade(): void {
-  upgrades.forEach((upgrade) => {
+  availableItems.forEach((upgrade) => {
     const x = document.createElement("button");
     x.disabled = true;
     x.style.whiteSpace = "pre-line";
@@ -87,7 +87,7 @@ function createUpgrade(): void {
  * to unlock or lock the upgrades.
  */
 function manageUpgradeLocks(): void {
-  upgrades.forEach((u) => {
+  availableItems.forEach((u) => {
     const btn = document.getElementById(`upg-${u.name}`) as HTMLButtonElement;
     if (count >= u.cost && btn.disabled === true) {
       btn.disabled = false;
@@ -130,7 +130,7 @@ function getPassiveGenerationRate(): string {
 /**
  * this function mediates the purchase of upgrade
  */
-function purchaseUpgrade(u: Upgrade, btn: HTMLButtonElement): void {
+function purchaseUpgrade(u: Item, btn: HTMLButtonElement): void {
   if (count >= u.cost) {
     count -= u.cost;
     growth_rate += u.growth_rate;
