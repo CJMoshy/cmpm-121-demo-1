@@ -80,14 +80,14 @@ button:hover {
   align-items: center;
   top: 0%;
   left: 0%;
-  width: 80%;
+  width: 70%;
   height: 100%;
   user-select: none;
 }
 
 .sidebar {
   user-select: none;
-  width: 20%;
+  width: 30%;
   height: 100%;
   position: fixed;
   right: 0%;
@@ -112,7 +112,8 @@ img {
 }
 
 .upgrade {
-  margin-top: 10px;
+  width: 400px;
+  margin-top: 30px;
 }
 
 .passive {

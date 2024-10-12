@@ -4,4 +4,5 @@ interface Item {
   name: string;
   cost: number;
   growth_rate: number;
+  description: string;
 }
