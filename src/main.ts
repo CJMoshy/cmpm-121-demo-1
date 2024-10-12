@@ -7,7 +7,7 @@ const gameName = "Galaxy Gatherer";
 document.title = gameName;
 
 // globals
-let count = 10000;
+let count = 0;
 let growth_rate = 0;
 let initial = Date.now();
 const upgrade_increase_factor = 1.15;
