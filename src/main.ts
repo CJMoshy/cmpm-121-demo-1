@@ -28,6 +28,11 @@ const sidebar_label = document.createElement("h2");
 sidebar_label.textContent = "Upgrades";
 sidebar_container.append(sidebar_label);
 
+const title = document.createElement('h1')
+title.textContent = 'Galaxy Gatherer';
+title.className = 'main-title';
+main_container.append(title);
+
 const counter = document.createElement("div");
 updateCountDisplayMessage();
 counter.className = "counter";
