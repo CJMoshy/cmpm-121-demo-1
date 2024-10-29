@@ -8,11 +8,18 @@ const gameName = "Galaxy Gatherer";
 document.title = gameName;
 
 // globals
-let count = 0;
-let growthRate = 0;
-let initial = Date.now();
-const upgradeIncreaseFactor = 1.15;
-const availableItems: Item[] = items;
+const GAME_MANAGER: GameManager = {
+  count: 0,
+  growthRate: 0,
+  initial: Date.now(),
+  upgradeIncreaseFactor: 1.15,
+  availableItems: items,
+};
+// let count = 0,
+// let growthRate = 0;
+// let initial = Date.now();
+// const upgradeIncreaseFactor = 1.15;
+// const availableItems: Item[] = items;
 
 // dom setup here
 const mainContainer = document.createElement("div");
@@ -47,7 +54,7 @@ updatePassiveGenerationDisplayMessage();
 mainContainer.append(passiveGainsTracker);
 
 mainClickComponent.addEventListener("click", () => {
-  count += 1;
+  GAME_MANAGER.count += 1;
   updateCountDisplayMessage();
 });
 
@@ -71,7 +78,7 @@ function setUpgradeTextContent(btn: HTMLButtonElement, u: Item) {
  * upgrades passed in
  */
 function createUpgrade(): void {
-  availableItems.forEach((upgrade) => {
+  GAME_MANAGER.availableItems.forEach((upgrade) => {
     const x = document.createElement("button");
     x.disabled = true;
     x.style.whiteSpace = "pre-line";
@@ -89,11 +96,11 @@ function createUpgrade(): void {
  * to unlock or lock the upgrades.
  */
 function manageUpgradeLocks(): void {
-  availableItems.forEach((u) => {
+  GAME_MANAGER.availableItems.forEach((u) => {
     const btn = document.getElementById(`upg-${u.name}`) as HTMLButtonElement;
-    if (count >= u.cost && btn.disabled === true) {
+    if (GAME_MANAGER.count >= u.cost && btn.disabled === true) {
       btn.disabled = false;
-    } else if (count < u.cost) btn.disabled = true;
+    } else if (GAME_MANAGER.count < u.cost) btn.disabled = true;
   });
 }
 
@@ -109,8 +116,8 @@ function updateCountDisplayMessage(): void {
  * @return {string}
  */
 function getCount(): string {
-  if (count === 0) return "0";
-  return `${count.toFixed(0).toString()} galaxy dust!`;
+  if (GAME_MANAGER.count === 0) return "0";
+  return `${GAME_MANAGER.count.toFixed(0).toString()} galaxy dust!`;
 }
 
 /**
@@ -125,18 +132,18 @@ function updatePassiveGenerationDisplayMessage(): void {
  * @return {string}
  */
 function getPassiveGenerationRate(): string {
-  if (growthRate === 0) return "0 galaxy dust per second";
-  return `${growthRate.toFixed(1).toString()} galaxy dust per second!`;
+  if (GAME_MANAGER.growthRate === 0) return "0 galaxy dust per second";
+  return `${GAME_MANAGER.growthRate.toFixed(1).toString()} galaxy dust per second!`;
 }
 
 /**
  * this function mediates the purchase of upgrade
  */
 function purchaseUpgrade(u: Item, btn: HTMLButtonElement): void {
-  if (count >= u.cost) {
-    count -= u.cost;
-    growthRate += u.growth_rate;
-    u.cost *= upgradeIncreaseFactor;
+  if (GAME_MANAGER.count >= u.cost) {
+    GAME_MANAGER.count -= u.cost;
+    GAME_MANAGER.growthRate += u.growth_rate;
+    u.cost *= GAME_MANAGER.upgradeIncreaseFactor;
     updatePassiveGenerationDisplayMessage();
     updateCountDisplayMessage();
     setUpgradeTextContent(btn, u);
@@ -150,11 +157,11 @@ function update(): void {
   manageUpgradeLocks();
 
   const elapsed = Date.now();
-  const final = (elapsed - initial) / 1000;
+  const final = (elapsed - GAME_MANAGER.initial) / 1000;
 
   if (final > 1) {
-    count += growthRate;
-    initial = Date.now();
+    GAME_MANAGER.count += GAME_MANAGER.growthRate;
+    GAME_MANAGER.initial = Date.now();
     updateCountDisplayMessage();
   }
   requestAnimationFrame(update);

@@ -6,3 +6,11 @@ interface Item {
   growth_rate: number;
   description: string;
 }
+
+interface GameManager {
+  count: number;
+  growthRate: number;
+  initial: number;
+  upgradeIncreaseFactor: number;
+  availableItems: Item[];
+}
