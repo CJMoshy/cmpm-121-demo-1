@@ -12,11 +12,36 @@ let growthRate = 0;
 let initial = Date.now();
 const upgradeIncreaseFactor = 1.15;
 const availableItems: Item[] = [
-  { name: "Alien Assistants", cost: 10, growth_rate: 0.1, description: "Almost always certinally never fails in most circumstances" },
-  { name: "Mothership Generator", cost: 100, growth_rate: 2.0, description: "This thing just cranks 'em out" },
-  { name: "Black Hole Essence", cost: 1000, growth_rate: 50, description: "Glistening with the light of a trillion stars..." },
-  { name: "Warp Speed Override", cost: 5000, growth_rate: 100, description: "Someone must have left this thing laying around eons ago" },
-  { name: "Galaxy Soul", cost: 10000, growth_rate: 500, description: "An exceptionally powerfull component" },
+  {
+    name: "Alien Assistants",
+    cost: 10,
+    growth_rate: 0.1,
+    description: "Almost always certinally never fails in most circumstances",
+  },
+  {
+    name: "Mothership Generator",
+    cost: 100,
+    growth_rate: 2.0,
+    description: "This thing just cranks 'em out",
+  },
+  {
+    name: "Black Hole Essence",
+    cost: 1000,
+    growth_rate: 50,
+    description: "Glistening with the light of a trillion stars...",
+  },
+  {
+    name: "Warp Speed Override",
+    cost: 5000,
+    growth_rate: 100,
+    description: "Someone must have left this thing laying around eons ago",
+  },
+  {
+    name: "Galaxy Soul",
+    cost: 10000,
+    growth_rate: 500,
+    description: "An exceptionally powerfull component",
+  },
 ];
 
 // dom setup here
@@ -28,9 +53,9 @@ const sidebarLabel = document.createElement("h2");
 sidebarLabel.textContent = "Upgrades";
 sidebarContainer.append(sidebarLabel);
 
-const title = document.createElement('h1')
-title.textContent = 'Galaxy Gatherer';
-title.className = 'main-title';
+const title = document.createElement("h1");
+title.textContent = "Galaxy Gatherer";
+title.className = "main-title";
 mainContainer.append(title);
 
 const counter = document.createElement("div");
