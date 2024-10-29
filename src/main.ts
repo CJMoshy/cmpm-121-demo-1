@@ -1,6 +1,6 @@
 import "./style.css";
 import spaceship from "./spaceship.jpg";
-import items from'./Items.json'
+import items from "./Items.json";
 
 // skeleton stuff from base code
 const app: HTMLDivElement = document.querySelector("#app")!;
@@ -12,7 +12,7 @@ let count = 0;
 let growthRate = 0;
 let initial = Date.now();
 const upgradeIncreaseFactor = 1.15;
-const availableItems: Item[] = items; 
+const availableItems: Item[] = items;
 
 // dom setup here
 const mainContainer = document.createElement("div");
