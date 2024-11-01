@@ -71,21 +71,21 @@ function setUpgradeTextContent(btn: HTMLButtonElement, u: Item) {
  */
 function createUpgrade(): void {
   GAME_MANAGER.availableItems.forEach((upgrade) => {
-    const d = document.createElement('div');
-    d.className = 'upgrade-container'
-    const title = document.createElement('h4')
-    const flavor = document.createElement('p')
-    flavor.style.fontStyle = 'italic'
-    flavor.style.fontSize = '12px'
+    const d = document.createElement("div");
+    d.className = "upgrade-container";
+    const title = document.createElement("h4");
+    const flavor = document.createElement("p");
+    flavor.style.fontStyle = "italic";
+    flavor.style.fontSize = "12px";
     flavor.textContent = upgrade.description;
-    title.textContent = upgrade.name
+    title.textContent = upgrade.name;
     const x = document.createElement("button");
     setUpgradeTextContent(x, upgrade);
     x.disabled = true;
     x.style.whiteSpace = "pre-line";
     x.id = `upg-${upgrade.name}`;
     x.addEventListener("click", () => purchaseUpgrade(upgrade, x));
-    d.append(title, flavor, x)
+    d.append(title, flavor, x);
     sidebarContainer.append(d);
   });
 }
