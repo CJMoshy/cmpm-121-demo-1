@@ -15,20 +15,12 @@ const GAME_MANAGER: GameManager = {
   upgradeIncreaseFactor: 1.15,
   availableItems: items,
 };
-// let count = 0,
-// let growthRate = 0;
-// let initial = Date.now();
-// const upgradeIncreaseFactor = 1.15;
-// const availableItems: Item[] = items;
 
 // dom setup here
 const mainContainer = document.createElement("div");
 mainContainer.className = "container";
 const sidebarContainer = document.createElement("div");
 sidebarContainer.className = "sidebar";
-const sidebarLabel = document.createElement("h2");
-sidebarLabel.textContent = "Upgrades";
-sidebarContainer.append(sidebarLabel);
 
 const title = document.createElement("h1");
 title.textContent = "Galaxy Gatherer";
@@ -70,7 +62,7 @@ app.append(sidebarContainer);
  * @param {Upgrade} u
  */
 function setUpgradeTextContent(btn: HTMLButtonElement, u: Item) {
-  btn.textContent = `${u.name}\n+${u.growth_rate.toString()} galaxy dust per second\ncost = ${u.cost.toFixed(2)}\n${u.description}`;
+  btn.textContent = `${u.growth_rate.toString()} x\n ${u.cost.toFixed(2)}`;
 }
 
 /**
@@ -79,14 +71,22 @@ function setUpgradeTextContent(btn: HTMLButtonElement, u: Item) {
  */
 function createUpgrade(): void {
   GAME_MANAGER.availableItems.forEach((upgrade) => {
+    const d = document.createElement('div');
+    d.className = 'upgrade-container'
+    const title = document.createElement('h4')
+    const flavor = document.createElement('p')
+    flavor.style.fontStyle = 'italic'
+    flavor.style.fontSize = '12px'
+    flavor.textContent = upgrade.description;
+    title.textContent = upgrade.name
     const x = document.createElement("button");
+    setUpgradeTextContent(x, upgrade);
     x.disabled = true;
     x.style.whiteSpace = "pre-line";
-    setUpgradeTextContent(x, upgrade);
-    x.className = "upgrade";
     x.id = `upg-${upgrade.name}`;
     x.addEventListener("click", () => purchaseUpgrade(upgrade, x));
-    sidebarContainer.append(x);
+    d.append(title, flavor, x)
+    sidebarContainer.append(d);
   });
 }
 
